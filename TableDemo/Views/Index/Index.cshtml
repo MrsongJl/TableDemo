@@ -1,0 +1,264 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<link href="/Content/bootstrap.min.css" rel="stylesheet" />
+<link href="/Content/bootstrap-editable.css" rel="stylesheet" />
+<link href="/Content/bootstrap-table.min.css" rel="stylesheet" />
+
+<script src="/Scripts/jquery-1.10.2.js"></script>
+<script src="/Scripts/bootstrap.min.js"></script>
+<!---行内编辑使用的 1.1.5-->
+<script src="/Scripts/bootstrap-editable.js"></script>
+
+<!--中文包及js-->
+<script src="/Scripts/bootstrap-table/bootstrap-table.min.js"></script>
+<script src="/Scripts/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
+<!--封装了bootstrap-table对x-editable的使用-->
+<script src="/Scripts/bootstrap-table-editable.js"></script>
+
+<!---一些其他方法见 http://vitalets.github.io/x-editable/ --->
+<!--注意js版本问题 BS3 -->
+<div class="row">
+    <div class="panel-body" style="padding-bottom:0px;">
+        <div class="panel panel-default">
+            <div class="panel-heading">查询条件</div>
+            <div class="panel-body">
+                <form id="formSearch" class="form-horizontal">
+                    <div class="form-group" style="margin-top:15px">
+                        <label class="control-label col-sm-1" for="txt_search_departmentname">条件1</label>
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control" id="txt_search_departmentname">
+                        </div>
+                        <label class="control-label col-sm-1" for="txt_search_statu">条件2</label>
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control" id="txt_search_statu">
+                        </div>
+                        <div class="col-sm-4" style="text-align:left;">
+                            <button type="button" style="margin-left:50px" id="btn_query" name="refresh" class="btn btn-primary">查询</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div id="toolbar" class="btn-group">
+            <button id="btn_add" type="button" class="btn btn-default">
+                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>新增
+            </button>
+            <button id="btn_edit" type="button" class="btn btn-default">
+                <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>修改
+            </button>
+            <button id="btn_delete" type="button" class="btn btn-default">
+                <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>删除
+            </button>
+        </div>
+        <table id="tb_departments"></table>
+
+    </div>
+</div>
+
+
+<script>
+    //脚本
+
+
+    //(1)初始化
+    $(function () {
+        var oTable = new TableInit();
+        oTable.Init();
+    });
+    var TableInit = function () {
+        var oTableInit = new Object();
+        oTableInit.Init = function () {
+            $('#tb_departments').bootstrapTable({
+                url: '/index/GetDepartment', //请求后台的URL（*）
+                method: 'get', //请求方式（*）
+                toolbar: '#toolbar', //工具按钮用哪个容器
+                striped: true, //是否显示行间隔色
+                cache: false, //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+                pagination: true, //是否显示分页（*）
+                sortable: false, //是否启用排序
+                sortOrder: "asc", //排序方式
+                queryParams: oTableInit.queryParams,//传递参数（*）
+                sidePagination: "server", //分页方式：client客户端分页，server服务端分页（*）
+                pageNumber: 1, //初始化加载第一页，默认第一页
+                pageSize: 10, //每页的记录行数（*）
+                pageList: [10, 25, 50, 100], //可供选择的每页的行数（*）
+                search: false, //是否显示表格搜索，此搜索是客户端搜索，不会进服务端，所以，个人感觉意义不大
+                strictSearch: true,
+                showColumns: true, //是否显示所有的列
+                showRefresh: true, //是否显示刷新按钮
+                minimumCountColumns: 2, //最少允许的列数
+                clickToSelect: true, //是否启用点击选中行
+                height: 500, //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度
+                uniqueId: "id", //每一行的唯一标识，一般为主键列
+                showToggle: true, //是否显示详细视图和列表视图的切换按钮
+                cardView: false, //是否显示详细视图
+                detailView: false, //是否显示父子表
+                columns: [{
+                    checkbox: true
+                }, {
+                    field: 'one',
+                    title: '列1',
+                    editable: {
+                        type: 'text',
+                        title: '用户名',
+                        validate: function (v) {
+                            if (!v) return '用户名不能为空';
+                        }
+                    }
+                    //验证数字
+                    //editable: {
+                    //    type: 'text',
+                    //    title: '年龄',
+                    //    validate: function (v) {
+                    //        if (isNaN(v)) return '年龄必须是数字';
+                    //        var age = parseInt(v);
+                    //        if (age <= 0) return '年龄必须是正整数';
+                    //    }
+                    //}
+                    //时间框
+                    //editable: {
+                    //    type: 'datetime',
+                    //    title: '时间'
+                    //}
+                    //选择框
+                    //editable: {
+                    //    type: 'select',
+                    //    title: '部门',
+                    //    source: [{ value: "1", text: "研发部" }, { value: "2", text: "销售部" }, { value: "3", text: "行政部" }]
+                    //}
+                    //复选框
+                    //editable: {
+                    //type: "checklist",
+                    //separator:",",
+                    //source: [{ value: 'bsb', text: '篮球' },
+                    //     { value: 'ftb', text: '足球' },
+                    //     { value: 'wsm', text: '游泳' }],
+                    //}
+                    //select2
+                    //暂未使用到
+
+                    //取后台数据
+                    //editable: {
+                    //    type: 'select',
+                    //    title: '部门',
+                    //    source: function () {
+                    //        var result = [];
+                    //        $.ajax({
+                    //            url: '/Editable/GetDepartments',
+                    //            async: false,
+                    //            type: "get",
+                    //            data: {},
+                    //            success: function (data, status) {
+                    //                $.each(data, function (key, value) {
+                    //                    result.push({ value: value.ID, text: value.Name });
+                    //                });
+                    //            }
+                    //        });
+                    //        return result;
+                    //    }
+                    //}
+
+
+                }, {
+                    field: 'two',
+                    title: '列2',
+                }],
+                //保存的使用
+                onEditableSave: function (field, row, oldValue, $el) {
+                    //可进行异步操作
+
+                    $.ajax({
+                        type: "post",
+                        url: "/index/Edit",
+                        data: row,
+                        dataType: 'JSON',
+                        success: function (data, status) {
+                            if (status == "success") {
+                                alert('提交数据成功');
+                            }
+                        },
+                        error: function () {
+                            alert('编辑失败');
+                        },
+                        complete: function () {
+
+                        }
+
+                    });
+                }
+
+            });
+        };
+
+        //得到查询的参数
+        oTableInit.queryParams = function (params) {
+            var temp = { //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的
+                limit: params.limit, //页面大小
+                offset: params.offset, //页码
+            };
+            return temp;
+        };
+        return oTableInit;
+    };
+
+    //(2)关键字检索
+    $("#btn_query").click(function () {
+        //点击查询是 使用刷新 处理刷新参数
+        var opt = {
+            url: "/index/GetDepartment",
+            silent: true,
+            query: {
+                text1: $("#txt_search_departmentname").val(), //条件1
+                text2: $("#txt_search_statu").val()           //条件2 ....
+            }
+        };
+        $('#tb_departments').bootstrapTable('refresh', opt);
+
+    });
+
+    //(3)修改一、获取编号进入下一页
+    $("#btn_edit").click(function () {
+        var i = 0;
+        var id;
+        $("input[name='btSelectItem']:checked").each(function () {
+            i++;
+            id = $(this).parents("tr").attr("data-uniqueid");
+        })
+        if (i > 1) {
+            alert("编辑只支持单一操作")
+        } else {
+            if (i != 0) {
+                alert("获取选中的id为" + id);
+                window.location.href = "/index/index";
+            } else {
+                alert("请选中要编辑的数据");
+            }
+
+        }
+
+    })
+
+    //(3)修改二、在本页修改编辑
+
+
+
+
+
+
+    //(4)删除及批量删除
+
+    $("#btn_delete").click(function () {
+        if (confirm("确认要删除吗？")) {
+            var idlist = "";
+            $("input[name='btSelectItem']:checked").each(function () {
+                idlist += $(this).parents("tr").attr("data-uniqueid") + ",";
+            })
+            alert("删除的列表为" + idlist);
+
+        }
+    });
+
+</script>
