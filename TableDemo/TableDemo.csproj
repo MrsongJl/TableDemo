@@ -117,6 +117,39 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="bin\Microsoft.AI.Agent.Intercept.dll" />
+    <Content Include="bin\Microsoft.AI.DependencyCollector.dll" />
+    <Content Include="bin\Microsoft.AI.DependencyCollector.xml" />
+    <Content Include="bin\Microsoft.AI.PerfCounterCollector.dll" />
+    <Content Include="bin\Microsoft.AI.ServerTelemetryChannel.dll" />
+    <Content Include="bin\Microsoft.AI.Web.dll" />
+    <Content Include="bin\Microsoft.AI.WindowsServer.dll" />
+    <Content Include="bin\Microsoft.ApplicationInsights.dll" />
+    <Content Include="bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll" />
+    <Content Include="bin\Microsoft.Web.Infrastructure.dll" />
+    <Content Include="bin\roslyn\csc.exe" />
+    <Content Include="bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll" />
+    <Content Include="bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll" />
+    <Content Include="bin\roslyn\Microsoft.CodeAnalysis.dll" />
+    <Content Include="bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll" />
+    <Content Include="bin\roslyn\System.Collections.Immutable.dll" />
+    <Content Include="bin\roslyn\System.Reflection.Metadata.dll" />
+    <Content Include="bin\roslyn\vbc.exe" />
+    <Content Include="bin\roslyn\VBCSCompiler.exe" />
+    <Content Include="bin\System.Web.Helpers.dll" />
+    <Content Include="bin\System.Web.Mvc.dll" />
+    <Content Include="bin\System.Web.Razor.dll" />
+    <Content Include="bin\System.Web.Webpages.Deployment.dll" />
+    <Content Include="bin\System.Web.Webpages.dll" />
+    <Content Include="bin\System.Web.Webpages.Razor.dll" />
+    <Content Include="bin\TableDemo.dll" />
+    <Content Include="bin\TableDemo.pdb" />
+    <Content Include="bin\zh-Hans\System.Web.Helpers.resources.dll" />
+    <Content Include="bin\zh-Hans\System.Web.Mvc.resources.dll" />
+    <Content Include="bin\zh-Hans\System.Web.Razor.resources.dll" />
+    <Content Include="bin\zh-Hans\System.Web.Webpages.Deployment.resources.dll" />
+    <Content Include="bin\zh-Hans\System.Web.Webpages.Razor.resources.dll" />
+    <Content Include="bin\zh-Hans\System.Web.Webpages.resources.dll" />
     <Content Include="Content\bootstrap-editable.css" />
     <Content Include="Content\bootstrap-table.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -132,6 +165,9 @@
     <Content Include="Scripts\bootstrap-table\locale\bootstrap-table-zh-CN.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="bin\roslyn\Microsoft.CSharp.Core.targets" />
+    <Content Include="bin\roslyn\Microsoft.VisualBasic.Core.targets" />
+    <Content Include="bin\roslyn\VBCSCompiler.exe.config" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="img\clear.png" />
     <Content Include="img\loading.gif" />
